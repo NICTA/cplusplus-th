@@ -1,0 +1,27 @@
+name:                cplusplus-th
+version:             1.0.0.0
+synopsis:            C++ Foreign Import Generation
+description:         
+  <<http://i.imgur.com/Ns5hntl.jpg>>
+  .
+  cplusplus-th allows you to foreign import C++ functions that are
+  compatible with the ccall calling convention. It also includes
+  some standard library abstractions.
+homepage:            https://github.com/nicta/cplusplus-th
+license:             BSD3
+license-file:        LICENSE
+author:              Maxwell Swadling
+maintainer:          maxwell.swadling@nicta.com.au
+copyright:           Copyright (c) 2014, National ICT Australia Limited (NICTA)
+category:            Foreign
+build-type:          Custom
+-- extra-source-files:  
+cabal-version:       >=1.10
+
+library
+  exposed-modules:     Foreign.CPlusPlus, Foreign.CPlusPlusStdLib, Foreign.NM
+  other-extensions:    TemplateHaskell, MultiParamTypeClasses, FlexibleInstances, ScopedTypeVariables, OverlappingInstances, UndecidableInstances, FunctionalDependencies
+  build-depends:       base >=4.6 && <4.8, template-haskell, bytestring >=0.10 && <0.11, process >=1.2 && <1.3
+  hs-source-dirs:      src
+  c-sources:           cbits/hsstring.cc
+  default-language:    Haskell2010
