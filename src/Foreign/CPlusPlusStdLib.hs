@@ -7,10 +7,8 @@ import qualified Data.ByteString as B
 import Foreign.C
 import Foreign.Ptr
 import Foreign.Concurrent
-import Foreign.StablePtr
 import Foreign.CPlusPlus
 import Foreign.ForeignPtr hiding (addForeignPtrFinalizer)
-import Foreign.Marshal
 
 data Std__basic_string_mem
 type Std__basic_string = Ptr Std__basic_string_mem
@@ -79,8 +77,8 @@ setMaybePtr isSet notSet p
   | otherwise    = isSet p
 
 setMaybeVal :: (a -> IO ()) -> IO () -> Maybe a -> IO ()
-setMaybeVal f unset Nothing = unset
-setMaybeVal f unset (Just x) = f x
+setMaybeVal _f unset Nothing = unset
+setMaybeVal f _unset (Just x) = f x
 
 getMaybeVal :: (IO a) -> (IO Bool) -> IO (Maybe a)
 getMaybeVal val isSet = do

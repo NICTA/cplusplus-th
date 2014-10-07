@@ -1,4 +1,4 @@
-module Foreign.NM where
+module Foreign.NM (lookupSymbol) where
 
 import Data.Char
 import Data.List
@@ -7,7 +7,7 @@ import Numeric
 import System.Process
 
 data Function = Function {
-    addr :: Int
+    _addr :: Int
   , cname :: String
   , prettyName :: String
   }
@@ -28,12 +28,13 @@ readFunctions filename = do
   return $ catMaybes $ map (\(a, v) -> lookup a filt' >>= Just . Function a v) nm'
 
 splitLine :: String -> Maybe (Int, String)
-splitLine x =
-  let (h, t) = fmap n $ splitAt 16 x
+splitLine l =
+  let (h, t) = fmap n $ splitAt 16 l
       [(v, "")] = readHex h
       n :: String -> String
       n (' ':_:' ':x) = x
       n (' ':x) = x
+      n _ = error "invalid nm output"
       eh = isSuffixOf "(.eh)" t
   in if all isHexDigit h && not eh
       then Just (v, t)
