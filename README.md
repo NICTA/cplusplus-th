@@ -1,14 +1,15 @@
 cplusplus-th
 ============
 
-cplusplus-th allows you to foreign import C++ functions that are
-compatible with the ccall calling convention. It also includes
+`cplusplus-th` allows you to foreign import C++ functions that are
+compatible with the `ccall` calling convention. It also includes
 some standard library abstractions.
 
 Example
 -------
 
-With the C++ function:
+With the following C++ function in the object file `cbits/string.o`:
+
 ```c++
 namespace haskell {
 string* fromCString(char const* x, int length) {
@@ -23,8 +24,6 @@ We can import it into Haskell with:
 cplusplus "haskell::fromCString(char const*, int)" "cbits/string.o"
           [t|CString -> Int -> IO Std__basic_string|]
 ```
-
-Given that the object is compiled and the object is put into `cbits/string.o`.
 
 Building
 --------
@@ -59,11 +58,24 @@ buildCPlusPlus pkg buildInfo hooks flags = do
   buildHook simpleUserHooks pkg buildInfo hooks flags
 ```
 
+Standard Library
+----------------
+
+`Foreign.CPlusPlusStdLib` exports the following type class:
+
+```haskell
+class CPlusPlusLand a {- haskell side -} b {- c++ side -} where
+  to :: a -> IO b
+  from :: b -> IO a
+```
+
+To avoid orphan instances, it implements instances for
+some numeric types, `String` and `ByteString`.
+
 Compatability
 -------------
 
 - Static functions are simply the arguments.
-- Member functions take the object as the first argument.
-- Inline functions are not possible.
+- Static member functions take the object as the first argument.
 - Functions via a vtable are not possible.
-- Some other functions are not possible.
+- Inline functions are not possible.
