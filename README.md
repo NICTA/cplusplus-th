@@ -79,3 +79,4 @@ Compatability
 - Static member functions take the object as the first argument.
 - Functions via a vtable are not possible.
 - Inline functions are not possible.
+- instantiating templates is not possible.
