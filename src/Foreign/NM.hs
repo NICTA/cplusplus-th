@@ -1,4 +1,11 @@
-module Foreign.NM (lookupSymbol) where
+{-# LANGUAGE CPP #-}
+module Foreign.NM (
+    lookupSymbol
+#ifdef TESTING
+  , readFunctions'
+  , Function(..)
+#endif
+  ) where
 
 import Data.Char
 import Data.List
@@ -11,7 +18,7 @@ data Function = Function {
   , cname :: String
   , prettyName :: String
   }
-  deriving (Show)
+  deriving (Show, Eq)
 
 lookupSymbol :: String -> String -> IO (Maybe String)
 lookupSymbol filename func = do
@@ -22,14 +29,18 @@ readFunctions :: String -> IO [Function]
 readFunctions filename = do
   nm <- readProcess "nm" [filename] ""
   filt <- readProcess "c++filt" [] nm
-  let f = catMaybes . map splitLine . lines
-      nm'   = f nm
-      filt' = f filt
-  return $ catMaybes $ map (\(a, v) -> lookup a filt' >>= Just . Function a v) nm'
+  return $ readFunctions' nm filt
 
-splitLine :: String -> Maybe (Int, String)
-splitLine l =
-  let (h, t) = fmap n $ splitAt 16 l
+readFunctions' nm filt =
+  let addrLen = length $ takeWhile (/= ' ') $ head $ lines nm
+      f = catMaybes . map (splitLine addrLen) . lines
+  in catMaybes $ map (\(a, v) -> lookup a (f filt) >>= Just . Function a v) (f nm)
+
+-- for 64 bit, the addrLen is 16 chars
+-- for 32 bit, it is 8
+splitLine :: Int -> String -> Maybe (Int, String)
+splitLine addrLen l =
+  let (h, t) = fmap n $ splitAt addrLen l
       [(v, "")] = readHex h
       n :: String -> String
       n (' ':_:' ':x) = x

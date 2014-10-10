@@ -1,0 +1,24 @@
+00000000 r GCC_except_table1
+0000002c r GCC_except_table4
+000001c0 t global constructors keyed to a
+         U _Unwind_Resume
+00000130 T haskell::cstringLen(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+00000040 T haskell::fromCString(char const*, int)
+00000150 T haskell::deleteString(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const*)
+00000110 T haskell::toCString(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+         U std::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str() const
+         U std::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const
+         U std::allocator<char>::allocator()
+         U std::allocator<char>::~allocator()
+         U std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, unsigned int, std::allocator<char> c
+onst&)
+         U std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()
+         U std::ios_base::Init::Init()
+         U std::ios_base::Init::~Init()
+00000000 b std::__ioinit
+         U operator delete(void*)
+         U operator new(unsigned int)
+         U __cxa_atexit
+00000000 t __cxx_global_var_init
+         U __dso_handle
+         U __gxx_personality_v0
