@@ -21,7 +21,7 @@ cabal-version:       >=1.10
 library
   exposed-modules:     Foreign.CPlusPlus, Foreign.CPlusPlusStdLib, Foreign.NM
   other-extensions:    TemplateHaskell, MultiParamTypeClasses, FlexibleInstances, ScopedTypeVariables, OverlappingInstances, UndecidableInstances, FunctionalDependencies
-  build-depends:       base >=4.6 && <4.8, template-haskell, bytestring >=0.10 && <0.11, process >=1.2 && <1.3
+  build-depends:       base >=4.6 && <4.8, template-haskell, bytestring >=0.10 && <0.11, process >=1.2 && <1.3, containers == 0.5.*
   hs-source-dirs:      src
   extra-libraries:     c++
   c-sources:           cbits/hsstring.cc

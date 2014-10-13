@@ -7,8 +7,10 @@ module Foreign.NM (
 #endif
   ) where
 
+import Prelude hiding (lookup)
+import Data.Map (lookup, fromList)
 import Data.Char
-import Data.List
+import Data.List hiding (lookup)
 import Data.Maybe
 import Numeric
 import System.Process
@@ -31,10 +33,11 @@ readFunctions filename = do
   filt <- readProcess "c++filt" [] nm
   return $ readFunctions' nm filt
 
+readFunctions' :: String -> String -> [Function]
 readFunctions' nm filt =
   let addrLen = length $ takeWhile (/= ' ') $ head $ lines nm
       f = catMaybes . map (splitLine addrLen) . lines
-      filt' = f filt
+      filt' = fromList $ f filt
   in catMaybes $ map (\(a, v) -> lookup a filt' >>= Just . Function a v) (f nm)
 
 -- for 64 bit, the addrLen is 16 chars
