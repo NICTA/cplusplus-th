@@ -34,7 +34,8 @@ readFunctions filename = do
 readFunctions' nm filt =
   let addrLen = length $ takeWhile (/= ' ') $ head $ lines nm
       f = catMaybes . map (splitLine addrLen) . lines
-  in catMaybes $ map (\(a, v) -> lookup a (f filt) >>= Just . Function a v) (f nm)
+      filt' = f filt
+  in catMaybes $ map (\(a, v) -> lookup a filt' >>= Just . Function a v) (f nm)
 
 -- for 64 bit, the addrLen is 16 chars
 -- for 32 bit, it is 8
