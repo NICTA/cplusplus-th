@@ -6,7 +6,7 @@ import Data.Char
 import Foreign.NM
 import Language.Haskell.TH
 
-cplusplus :: String -> String -> Q Type -> Q [Dec]
+cplusplus :: String -> FilePath -> Q Type -> Q [Dec]
 cplusplus name objfile t = do
   -- we drop the last _ so we can call things reserved names.
   let nameLit = let (Just i) = findIndex (== '(') name
